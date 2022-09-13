@@ -128,8 +128,8 @@ class RadialAnimation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // will provide angle for further calculation
-    ///For 5 buttons, this is perfectly working
-    double generatedAngle = 220 / (radialButtons.length);
+    ///For 6 buttons, this is perfectly working
+    double generatedAngle = 360 / (radialButtons.length);
     double iconAngle;
 
     return AnimatedBuilder(
@@ -143,14 +143,11 @@ class RadialAnimation extends StatelessWidget {
               // generates list of buttons
               ...radialButtons.map(
                 (index) {
-                  ///TODO: Change this icon angle if Number of buttons are more than or less than 5
-                  /// assert( numOfButtons == 5 );
-                  /// After 10 minutes of brain storming, I finally realized that button angles are a little bit mis-aligned.
-                  /// So I customized the angle again,
-                  iconAngle = radialButtons.indexOf(index) * generatedAngle + 2;
+                  ///TODO: Change this icon angle if Number of buttons are more than or less than 6
+                  /// assert( numOfButtons == 6 );
+                  iconAngle = radialButtons.indexOf(index) * generatedAngle;
                   return _buildButton(
-                    /// If angles are perfectly aligned, it will not look good, so I changed it a little bit
-                    checkAngle(iconAngle),
+                    iconAngle,
                     color: index.buttonColor,
                     text: index.text,
                     onPress: index.onPress,
@@ -237,32 +234,15 @@ class RadialAnimation extends StatelessWidget {
     );
   }
 
-  ///Position radial buttons in place
-  double checkAngle(double angle) {
-    if (angle < 45) {
-      return 0;
-    } else if (angle < 90) {
-      /// NOTE: Reduced 10 degree to look good second button
-      return 35;
-    } else if (angle < 130) {
-      return 90;
-    } else if (angle < 170) {
-      /// NOTE: Added 10 more degrees to look good fourth button
-      return 145;
-    } else {
-      return 180;
-    }
-  }
-
   /// If Clover is closed, radial buttons are invisible
   double checkOpacity(double value) {
     if (value < 10) {
       return 0.0;
-    } else if (value < 20) {
-      return 0.2;
     } else if (value < 30) {
-      return 0.5;
+      return 0.2;
     } else if (value < 40) {
+      return 0.5;
+    } else if (value < 50) {
       return 0.8;
     } else {
       return 1;
